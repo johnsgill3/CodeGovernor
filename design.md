@@ -14,9 +14,3 @@ SELECT UNIQUE f.Name
 FROM Files f, Users u
 WHERE f.
 ```
-
-### TODO Items
-1. pull_request[reopened]
-1. File Owner History
-1. Organizations/Teams
-1. Re-Reviews?
