@@ -22,5 +22,9 @@ module CodeReviewer
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    # Setup GitHub Configs
+    Octokit.auto_paginate = true
+    Octokit.default_media_type = "application/vnd.github.v3+json"
   end
 end
