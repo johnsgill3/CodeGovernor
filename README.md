@@ -1,14 +1,14 @@
 # Setup Guide
 1. Clone the repository down to local machine:
   ```sh
-  git clone https://github.com/johnsgill3/CodeReviewer.git
+  git clone https://github.com/CodeGovernor/CodeGovernor.git
   ```
-  
-1. Change into the CodeReviewer directory
+
+1. Change into the CodeGovernor directory
   ```sh
-  cd CodeReviewer
+  cd CodeGovernor
   ```
-  
+
 1. Make sure that ruby and bundler are installed
   ```sh
   $ ruby -v
@@ -16,12 +16,12 @@
   $ bundle -v
   Bundler version 1.11.2
   ```
-  
+
 1. Install all the gems needed to run application. This will read the Gemfile and get all the correct gems.
   ```sh
   bundle install
   ```
-  
+
 1. Make sure that postgresql is installed and running.
   ```sh
   $ postgres -V
@@ -35,19 +35,19 @@
   ```
 If not installed read the following [Guide](https://www.codefellows.org/blog/three-battle-tested-ways-to-install-postgresql#macosx)
 
-1. Create the databases needed for running CodeReviewer via `psql`
+1. Create the databases needed for running CodeGovernor via `psql`
   ```sql
-  create database CodeReviewer_test;
-  create database CodeReviewer_development;
-  create database CodeReviewer_production;
+  create database CodeGovernor_test;
+  create database CodeGovernor_development;
+  create database CodeGovernor_production;
   ```
-  
-1. Create the schema for running CodeReviewer. The migrate makes sure it is up to the latest
+
+1. Create the schema for running CodeGovernor. The migrate makes sure it is up to the latest
   ```sh
   $ rake db:create
   $ rake db:migrate
   ```
-  
+
 1. Make sure that your GitHub Client ID and Client Secret Application Keys are present in the environment.
   ```sh
   $ env | grep GH_
@@ -57,9 +57,9 @@ If not installed read the following [Guide](https://www.codefellows.org/blog/thr
 If not present read the following about creating one - [Registering your app](https://developer.github.com/guides/basics-of-authentication/#registering-your-app).  
 Make sure that in the callback field to specify `http://localhost:3000/auth/github/callback`
 
-1. Start CodeReviewer
+1. Start CodeGovernor
   ```sh
   rails server -e development
   ```
-  
+
 1. Open http://localhost:3000 in your WebBrowser and should be presented with the index page.
