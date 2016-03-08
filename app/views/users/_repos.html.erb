@@ -1,0 +1,8 @@
+<dl>
+<% get_repos(@user).each do |key, value| %>
+    <dt><%= key %></dt>
+    <% value.each do |v| %>
+        <dd><%= v %></dd>
+    <% end %>
+<% end %>
+<dl>
