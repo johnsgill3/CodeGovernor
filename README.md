@@ -63,3 +63,28 @@ Make sure that in the callback field to specify `http://localhost:3000/auth/gith
   ```
 
 1. Open http://localhost:3000 in your WebBrowser and should be presented with the index page.
+
+## Errors
+#### nokogiri zlib issue
+If during the bundle install of nokogiri fails due the following error (which you find in the mkmf.log)
+```
+ld: warning: ignoring file /usr/local/lib/libz.dylib, file was built for i386 which is not the architecture being linked (x86_64): /usr/local/lib/libz.dylib
+```
+The simplest way to work around it is as follows:
+1. Install zlib from homebrew
+    ```sh
+    $ brew install zlib
+    ```
+Mark down the build variables provided for `LDFLAGS` and `CPPFLAGS`. They should be something like:
+    ```sh
+    LDFLAGS:    -L/usr/local/opt/zlib/lib
+    CPPFLAGS:   -I/usr/local/opt/zlib/lib
+    ```
+2. Install nokogiri by itself specifying the path to zlib.
+    ```sh
+    $ brew install nokogiri -- --with-zlib-lib=/usr/local/opt/zlib/lib --with-zlib-include=/usr/local/opt/zlib/lib
+    ```
+3. After nokogiri installs successfully redo bundle install. Should successfully complete.
+    ```sh
+    $ bundle install
+    ```
