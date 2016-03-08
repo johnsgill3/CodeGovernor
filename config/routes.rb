@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
 
     # Add target for where to direct WebHook traffic
-    scope '/webhook', :controller => :webhook do
-        post :handle_payload
-    end
+    post '/wehook', to: 'webhook#handle_payload'
 end
