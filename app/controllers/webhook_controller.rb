@@ -3,33 +3,37 @@ class WebhookController < ApplicationController
 
     def handle_payload
         @payload = params[:payload]
+        @payload_body = request.body.read
+        @time_now = Time.now.getutc
 
         # Make sure that this hook came from a known repo
-        verify_signature(request.body.read)
+        verify_signature(@payload_body)
 
         case request.env['HTTP_X_GITHUB_EVENT']
             when "pull_request"
                 if @payload["action"] == "opened"
-                    puts "Received: pull_request[opened]"
+                    puts "#{@time_now} WHC Received: pull_request[opened]"
                 elsif @payload["action"] == "synchronized"
-                    puts "Received: pull_request[synchronized]"
+                    puts "#{@time_now} WHC Received: pull_request[synchronized]"
                 elsif @payload["action"] == "closed"
-                    puts "Received: pull_request[closed]"
+                    puts "#{@time_now} WHC Received: pull_request[closed]"
                 elsif @payload["action"] == "reopened"
-                    puts "Received: pull_request[reopened]"
+                    puts "#{@time_now} WHC Received: pull_request[reopened]"
+                else
+                    puts "#{@time_now} WHC Received: pull_request[Unknown action]"
                 end
             when "issue_comment"
-                puts "Received: issue_comment"
+                puts "#{@time_now} WHC Received: issue_comment"
             when "ping"
-                puts "Received: ping"
+                puts "#{@time_now} WHC Received: ping"
                 # Send initial status message so Protected Branch can be setup
             else
-                puts "Received: Unknown Event"
+                puts "#{@time_now} WHC Received: Unknown Event"
                 # Should this be an error? Got something we don't know how to handle
         end
         # For now don't send anything in body of message.
         # In future might add status message here
-        render :nothing => true
+        render plain: "Received #{request.env['HTTP_X_GITHUB_EVENT']} Event"
     end
 
     def verify_signature(payload_body)
