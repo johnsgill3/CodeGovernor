@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 1
+  enabled: false
+  secret_key: MyString
+
+two:
+  id: 1
+  enabled: false
+  secret_key: MyString
