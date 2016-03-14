@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
 =end
 
     def self.from_omniauth(auth_hash)
-        user = find_or_create_by(ghuid: auth_hash['id'])
+        user = find_or_create_by(ghuid: auth_hash['uid'])
         user.nickname = auth_hash['info']['nickname']
         user.token = auth_hash['credentials']['token']
         user.save!
