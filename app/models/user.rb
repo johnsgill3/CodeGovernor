@@ -1,21 +1,18 @@
 class User < ActiveRecord::Base
+    has_and_belongs_to_many :repositories
+    has_many :gfiles
+    has_many :feedbacks
 =begin
-    uid:string, null: false
-    name:string
+    ghuid:integer:index
     nickname:string
-    email:string
     token:string
 =end
 
-    class << self
-        def from_omniauth(auth_hash)
-            user = find_or_create_by(uid: auth_hash['uid'])
-            user.name = auth_hash['info']['name']
-            user.nickname = auth_hash['info']['nickname']
-            user.email = auth_hash['info']['email']
-            user.token = auth_hash['credentials']['token']
-            user.save!
-            user
-        end
+    def self.from_omniauth(auth_hash)
+        user = find_or_create_by(ghuid: auth_hash['id'])
+        user.nickname = auth_hash['info']['nickname']
+        user.token = auth_hash['credentials']['token']
+        user.save!
+        user
     end
 end
