@@ -1,11 +1,8 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  id: 1
-  enabled: false
-  secret_key: MyString
-
-two:
-  id: 1
-  enabled: false
-  secret_key: MyString
+<% 100.times do |n| %>
+repo_<%= n %>:
+    id: <%= n %>
+    enabled: true
+    secret_key: <%= SecureRandom.hex(20) %>
+<% end %>

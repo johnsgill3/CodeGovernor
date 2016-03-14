@@ -1,15 +1,8 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  uid: MyString
-  name: MyString
-  nickname: MyString
-  email: MyString
-  token: MyString
-
-two:
-  uid: MyString
-  name: MyString
-  nickname: MyString
-  email: MyString
-  token: MyString
+<% 100.times do |n| %>
+user_<%= n %>:
+    ghuid: <%= "user#{n}" %>
+    nickname: <%= "ghuser#{n}" %>
+    token: <%= SecureRandom.hex(15) %>
+<% end %>

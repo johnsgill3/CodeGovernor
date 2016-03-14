@@ -1,7 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  state: 1
-
-two:
-  state: 1
+<% 100.times do |n| %>
+feedback_<%= n %>:
+    state: <%= SecureRandom.random_number(20) %>
+<% end %>
