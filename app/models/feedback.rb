@@ -5,5 +5,7 @@ class Feedback < ActiveRecord::Base
     belongs_to :user
 =begin
     state:integer
+    review_id:integer
+    user_id:integer
 =end
 end

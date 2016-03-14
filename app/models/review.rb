@@ -7,5 +7,6 @@ class Review < ActiveRecord::Base
 =begin
     pr:integer:index
     state:integer
+    repository_id:integer
 =end
 end
