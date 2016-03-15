@@ -25,14 +25,6 @@ ActiveRecord::Schema.define(version: 20160314053527) do
   add_index "feedbacks", ["review_id"], name: "index_feedbacks_on_review_id", using: :btree
   add_index "feedbacks", ["user_id"], name: "index_feedbacks_on_user_id", using: :btree
 
-  create_table "file_reviews", id: false, force: :cascade do |t|
-    t.integer "g_files_id"
-    t.integer "reviews_id"
-  end
-
-  add_index "file_reviews", ["g_files_id"], name: "index_file_reviews_on_g_files_id", using: :btree
-  add_index "file_reviews", ["reviews_id"], name: "index_file_reviews_on_reviews_id", using: :btree
-
   create_table "g_files", force: :cascade do |t|
     t.string  "name"
     t.integer "repository_id"
@@ -43,6 +35,11 @@ ActiveRecord::Schema.define(version: 20160314053527) do
   add_index "g_files", ["repository_id"], name: "index_g_files_on_repository_id", using: :btree
   add_index "g_files", ["user_id"], name: "index_g_files_on_user_id", using: :btree
 
+  create_table "g_files_reviews", id: false, force: :cascade do |t|
+    t.integer "g_file_id", null: false
+    t.integer "review_id", null: false
+  end
+
   create_table "repositories", force: :cascade do |t|
     t.integer "ghid"
     t.boolean "enabled"
@@ -51,13 +48,10 @@ ActiveRecord::Schema.define(version: 20160314053527) do
 
   add_index "repositories", ["ghid"], name: "index_repositories_on_ghid", using: :btree
 
-  create_table "repository_users", id: false, force: :cascade do |t|
-    t.integer "repositories_id"
-    t.integer "users_id"
+  create_table "repositories_users", id: false, force: :cascade do |t|
+    t.integer "repository_id", null: false
+    t.integer "user_id",       null: false
   end
-
-  add_index "repository_users", ["repositories_id"], name: "index_repository_users_on_repositories_id", using: :btree
-  add_index "repository_users", ["users_id"], name: "index_repository_users_on_users_id", using: :btree
 
   create_table "reviews", force: :cascade do |t|
     t.integer "pr"

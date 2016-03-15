@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
     has_and_belongs_to_many :repositories
-    has_many :gfiles
+    has_many :g_files
     has_many :feedbacks
 =begin
     ghuid:integer:index
