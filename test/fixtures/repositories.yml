@@ -1,8 +1,10 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+<% prng = Random.new %>
 <% 100.times do |n| %>
 repo_<%= n %>:
-    id: <%= n %>
+    ghid: <%= n %>
     enabled: true
     secret_key: <%= SecureRandom.hex(20) %>
+    users: <%= (1..prng.rand(1..5)).map {|_| "user_#{prng.rand(100)}"}.join(', ') %>
 <% end %>
