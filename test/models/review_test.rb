@@ -1,7 +1,9 @@
 require 'test_helper'
 
 class ReviewTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+    test 'belongs to repository' do
+        200.times do |r|
+            puts "Review #{r} belongs to repository #{Review.find_by(pr: r).repository.ghid}"
+        end
+    end
 end
