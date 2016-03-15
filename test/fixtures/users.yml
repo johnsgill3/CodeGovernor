@@ -1,10 +1,8 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 <% prng = Random.new %>
 <% 100.times do |n| %>
 user_<%= n %>:
     ghuid: <%= n %>
     nickname: <%= "ghuser#{n}" %>
     token: <%= SecureRandom.hex(15) %>
-    repositories: <%= (1..prng.rand(1..5)).map {|_| "repo_#{prng.rand(100)}"}.join(', ') %>
+    repositories: <%= (1..prng.rand(1..5)).map {|_| "repo_#{prng.rand(10)}"}.join(', ') %>
 <% end %>
