@@ -35,17 +35,9 @@
   ```
 If not installed read the following [Guide](https://www.codefellows.org/blog/three-battle-tested-ways-to-install-postgresql#macosx)
 
-1. Create the databases needed for running CodeGovernor via `psql`
-  ```sql
-  create database CodeGovernor_test;
-  create database CodeGovernor_development;
-  create database CodeGovernor_production;
-  ```
-
-1. Create the schema for running CodeGovernor. The migrate makes sure it is up to the latest
+1. Create the Database and Schema for running CodeGovernor.
   ```sh
-  $ rake db:create
-  $ rake db:migrate
+  $ rake db:setup
   ```
 
 1. Make sure that your GitHub Client ID and Client Secret Application Keys are present in the environment.
