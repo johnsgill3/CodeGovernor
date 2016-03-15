@@ -1,10 +1,8 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 <% prng = Random.new %>
-<% 200.times do |n| %>
+<% 300.times do |n| %>
 review_<%= n %>:
     pr: <%= n %>
     state: <%= Random.new.rand(3) %>
-    repository: <%= "repo_#{Random.new.rand(100)}" %>
-    g_files: <%= (1..prng.rand(1..5)).map {|_| "user_#{prng.rand(100)}"}.join(', ') %>
+    repository: <%= "repo_#{Random.new.rand(10)}" %>
+    g_files: <%= (1..prng.rand(1..5)).map {|_| "file_#{prng.rand(100)}"}.join(', ') %>
 <% end %>
