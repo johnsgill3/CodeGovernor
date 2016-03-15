@@ -5,7 +5,7 @@ class GFileTest < ActiveSupport::TestCase
         1500.times do |f|
             file = g_files("file_#{f}".to_sym)
             assert_not_nil(file, "Could not find file #{f}")
-            assert_not_nil(file.repository, "Could not find repository for file #{file.name}")
+            assert_not_nil(file.repository, "Could not find repository for file #{file.id} - #{file.name}")
         end
     end
 
@@ -13,7 +13,7 @@ class GFileTest < ActiveSupport::TestCase
         1500.times do |f|
             file = g_files("file_#{f}".to_sym)
             assert_not_nil(file, "Could not find file #{f}")
-            assert_not_nil(file.user, "Could not find user for file #{file.name}")
+            assert_not_nil(file.user, "Could not find user for file #{file.id} - #{file.name}")
         end
     end
 
@@ -21,7 +21,7 @@ class GFileTest < ActiveSupport::TestCase
         1500.times do |f|
             file = g_files("file_#{f}".to_sym)
             assert_not_nil(file, "Could not find file #{f}")
-            assert_not_empty(file.reviews, "Could not find any reviews for file #{file.name}")
+            assert_not_empty(file.reviews, "Could not find any reviews for file #{file.id} - #{file.name}")
         end
     end
 end

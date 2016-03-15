@@ -5,7 +5,7 @@ class UserTest < ActiveSupport::TestCase
         100.times do |u|
             user = User.find_by(ghuid: u)
             assert_not_nil(user, "Could not find user #{u}")
-            assert_not_empty(user.repositories, "Could not find any repositories for user #{user.ghuid}")
+            assert_not_empty(user.repositories, "Could not find any repositories for user #{user.id} - #{user.ghuid}")
         end
     end
 
@@ -13,7 +13,7 @@ class UserTest < ActiveSupport::TestCase
         100.times do |u|
             user = User.find_by(ghuid: u)
             assert_not_nil(user, "Could not find user #{u}")
-            assert_not_empty(user.g_files, "Could not find any files for user #{user.ghuid}")
+            assert_not_empty(user.g_files, "Could not find any files for user #{user.id} - #{user.ghuid}")
         end
     end
 
@@ -21,7 +21,7 @@ class UserTest < ActiveSupport::TestCase
         100.times do |u|
             user = User.find_by(ghuid: u)
             assert_not_nil(user, "Could not find user #{u}")
-            assert_not_empty(user.feedbacks, "Could not find any feedback for user #{user.ghuid}")
+            assert_not_empty(user.feedbacks, "Could not find any feedback for user #{user.id} - #{user.ghuid}")
         end
     end
 
@@ -29,7 +29,7 @@ class UserTest < ActiveSupport::TestCase
         100.times do |u|
             user = User.find_by(ghuid: u)
             assert_not_nil(user, "Could not find user #{u}")
-            assert_not_nil(user.nickname, "User #{user.ghuid} has null nickname")
+            assert_not_nil(user.nickname, "User #{user.id} - #{user.ghuid} has null nickname")
         end
     end
 
@@ -38,7 +38,7 @@ class UserTest < ActiveSupport::TestCase
         100.times do |u|
             user = User.find_by(ghuid: u)
             assert_not_nil(user, "Could not find user #{u}")
-            assert_not_nil(user.token, "User #{user.ghuid} has null token")
+            assert_not_nil(user.token, "User #{user.id} - #{user.ghuid} has null token")
         end
     end
 end

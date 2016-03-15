@@ -5,7 +5,7 @@ class RepositoryTest < ActiveSupport::TestCase
         10.times do |r|
             repo = Repository.find_by(ghid: r)
             assert_not_nil(repo, "Could not find repo #{r}")
-            assert_not_empty(repo.users, "Could not find any users for repo #{repo.ghid}")
+            assert_not_empty(repo.users, "Could not find any users for repo #{repo.id} - #{repo.ghid}")
         end
     end
 
@@ -13,7 +13,7 @@ class RepositoryTest < ActiveSupport::TestCase
         10.times do |r|
             repo = Repository.find_by(ghid: r)
             assert_not_nil(repo, "Could not find repo #{r}")
-            assert_not_empty(repo.g_files, "Could not find any files for repo #{repo.ghid}")
+            assert_not_empty(repo.g_files, "Could not find any files for repo #{repo.id} - #{repo.ghid}")
         end
     end
 
@@ -21,7 +21,7 @@ class RepositoryTest < ActiveSupport::TestCase
         10.times do |r|
             repo = Repository.find_by(ghid: r)
             assert_not_nil(repo, "Could not find repo #{r}")
-            assert_not_empty(repo.reviews, "Could not find any reviews for repo #{repo.ghid}")
+            assert_not_empty(repo.reviews, "Could not find any reviews for repo #{repo.id} - #{repo.ghid}")
         end
     end
 
@@ -29,7 +29,7 @@ class RepositoryTest < ActiveSupport::TestCase
         10.times do |r|
             repo = Repository.find_by(ghid: r)
             assert_not_nil(repo, "Could not find repo #{r}")
-            assert_not_nil(repo.enabled, "Repo #{repo.ghid} has null enabled")
+            assert_not_nil(repo.enabled, "Repo #{repo.id} - #{repo.ghid} has null enabled")
         end
     end
 
@@ -37,7 +37,7 @@ class RepositoryTest < ActiveSupport::TestCase
         10.times do |r|
             repo = Repository.find_by(ghid: r)
             assert_not_nil(repo, "Could not find repo #{r}")
-            assert_not_nil(repo.secret_key, "Repo #{repo.ghid} has null secret_key")
+            assert_not_nil(repo.secret_key, "Repo #{repo.id} - #{repo.ghid} has null secret_key")
         end
     end
 end
