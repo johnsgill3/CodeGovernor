@@ -1,0 +1,8 @@
+<% prng = Random.new %>
+<% 1500.times do |n| %>
+feedback_<%= n %>:
+    state: <%= Random.new.rand(3) %>
+    # Make sure that at there is at least one feedback for each review
+    review: <%= n < 300 ? "review_#{n}" : "review_#{Random.new.rand(300)}" %>
+    user: <%= "user_#{Random.new.rand(100)}" %>
+<% end %>

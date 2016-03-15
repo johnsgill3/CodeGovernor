@@ -1,0 +1,11 @@
+<% prng = Random.new %>
+<% 1500.times do |n| %>
+file_<%= n %>:
+    name: <%= (0..Random.new.rand(3)).map {|d| "dir#{d}/"}.join+"file#{Random.new.rand(n+1)}.md" %>
+    # Make sure that at there is at least one file for each user
+    user: <%= n < 100 ? "user_#{n}" : "user_#{Random.new.rand(100)}" %>
+    # Make sure that at there is at least one file for each repo
+    repository: <%= n < 10 ? "repo_#{n}" : "repo_#{Random.new.rand(10)}" %>
+    # Make sure that at there is at least one review for each file
+    reviews: <%= (1..prng.rand(1..5)).map {|_| "review_#{prng.rand(300)}"}.join(', ') %>
+<% end %>

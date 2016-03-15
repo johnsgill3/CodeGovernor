@@ -1,0 +1,7 @@
+<% prng = Random.new %>
+<% 300.times do |n| %>
+review_<%= n %>:
+    pr: <%= n %>
+    state: <%= Random.new.rand(3) %>
+    repository: <%= n < 10 ? "repo_#{n}" : "repo_#{Random.new.rand(10)}" %>
+<% end %>
