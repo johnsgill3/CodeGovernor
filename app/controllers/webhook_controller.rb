@@ -4,7 +4,6 @@ class WebhookController < ApplicationController
     def handle_payload
         @payload = params[:payload]
         @payload_body = request.body.read
-        @time_now = Time.now.getutc
 
         # Make sure that this hook came from a known repo
         verify_signature(@payload_body)
@@ -12,23 +11,23 @@ class WebhookController < ApplicationController
         case request.env['HTTP_X_GITHUB_EVENT']
             when "pull_request"
                 if @payload["action"] == "opened"
-                    puts "#{@time_now} WHC Received: pull_request[opened]"
+                    logger.debug "WHC Received: pull_request[opened]"
                 elsif @payload["action"] == "synchronized"
-                    puts "#{@time_now} WHC Received: pull_request[synchronized]"
+                    logger.debug "WHC Received: pull_request[synchronized]"
                 elsif @payload["action"] == "closed"
-                    puts "#{@time_now} WHC Received: pull_request[closed]"
+                    logger.debug "WHC Received: pull_request[closed]"
                 elsif @payload["action"] == "reopened"
-                    puts "#{@time_now} WHC Received: pull_request[reopened]"
+                    logger.debug "WHC Received: pull_request[reopened]"
                 else
-                    puts "#{@time_now} WHC Received: pull_request[Unknown action]"
+                    logger.debug "WHC Received: pull_request[Unknown action]"
                 end
             when "issue_comment"
-                puts "#{@time_now} WHC Received: issue_comment"
+                logger.debug "WHC Received: issue_comment"
             when "ping"
-                puts "#{@time_now} WHC Received: ping"
+                logger.debug "WHC Received: ping"
                 # Send initial status message so Protected Branch can be setup
             else
-                puts "#{@time_now} WHC Received: Unknown Event"
+                logger.debug "WHC Received: Unknown Event"
                 # Should this be an error? Got something we don't know how to handle
         end
         # For now don't send anything in body of message.

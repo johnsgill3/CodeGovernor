@@ -1,6 +1,7 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require './lib/custom_formatter'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -26,5 +27,8 @@ module CodeGovernor
     # Setup GitHub Configs
     Octokit.auto_paginate = true
     Octokit.default_media_type = "application/vnd.github.v3+json"
+
+    # Setup the Custom Log Format
+    config.log_formatter = CustomFormatter.new
   end
 end

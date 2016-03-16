@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class WebhookControllerTest < ActionController::TestCase
-    test 'webhook events' do
+    test 'event kinds' do
         # Test all the basic events
         [:issue_comment, :ping, :unknown].each do |e|
             send_payload(e)
