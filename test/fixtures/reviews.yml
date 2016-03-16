@@ -2,6 +2,6 @@
 <% 300.times do |n| %>
 review_<%= n %>:
     pr: <%= n %>
-    state: <%= Random.new.rand(3) %>
-    repository: <%= n < 10 ? "repo_#{n}" : "repo_#{Random.new.rand(10)}" %>
+    state: <%= prng.rand(3) %>
+    repository: <%= n < 10 ? "repo_#{n}" : "repo_#{prng.rand(10)}" %>
 <% end %>

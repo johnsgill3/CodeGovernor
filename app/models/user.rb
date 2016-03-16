@@ -1,7 +1,9 @@
 class User < ActiveRecord::Base
     has_and_belongs_to_many :repositories
-    has_many :g_files
-    has_many :feedbacks
+    has_many :g_files, inverse_of: :user
+    has_many :feedbacks, inverse_of: :user
+
+    validates :ghuid, uniqueness: true
 =begin
     ghuid:integer:index
     nickname:string

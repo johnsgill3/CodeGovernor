@@ -1,8 +1,8 @@
 class Feedback < ActiveRecord::Base
     enum state: [ :pending, :approved, :rejected ]
 
-    belongs_to :review
-    belongs_to :user
+    belongs_to :review, validate: true
+    belongs_to :user, validate: true
 =begin
     state:integer
     review_id:integer
