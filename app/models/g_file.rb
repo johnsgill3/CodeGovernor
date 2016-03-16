@@ -1,6 +1,6 @@
 class GFile < ActiveRecord::Base
-    belongs_to :repository
-    belongs_to :user
+    belongs_to :repository, validate: true
+    belongs_to :user, validate: true
     has_and_belongs_to_many :reviews
 =begin
     name:string:index
