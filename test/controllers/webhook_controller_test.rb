@@ -1,6 +1,12 @@
 require 'test_helper'
 
 class WebhookControllerTest < ActionController::TestCase
+    def setup
+        prng = Random.new
+        @repo = repositories("repo_#{prng.rand(10)}".to_sym)
+        @t_payload = {repository: { id: @repo.ghid }}
+    end
+
     test 'event kinds' do
         # Test all the basic events
         [:issue_comment, :ping, :unknown].each do |e|
@@ -12,18 +18,18 @@ class WebhookControllerTest < ActionController::TestCase
         # Test the various pull_request actions
         [:opened, :synchronized, :closed, :reopened, :unknown].each do |a|
             # As more functionality is written add to this param block
-            t_payload = {action: a}
-            send_payload(:pull_request, t_payload)
+            @t_payload[:action] = a
+            send_payload(:pull_request)
         end
     end
 
     private
-    def send_payload(e_type, event_payload={})
+    def send_payload(e_type)
         # Set the event type
         @request.headers['HTTP_X_GITHUB_EVENT'] = e_type.to_s
 
         # Generate the payload body and the sha1 signature
-        payload_body = {payload: event_payload}
+        payload_body = {payload: @t_payload}
         gen_signature(payload_body)
 
         # Send the actual message
@@ -37,7 +43,7 @@ class WebhookControllerTest < ActionController::TestCase
 
     def gen_signature(payload_body)
         signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'),
-                                                      ENV['WEBHOOK_SECRET_KEY'],
+                                                      @repo.secret_key,
                                                       payload_body.to_query)
         @request.headers['HTTP_X_HUB_SIGNATURE'] = signature
     end
