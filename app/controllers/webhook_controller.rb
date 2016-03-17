@@ -12,7 +12,7 @@ class WebhookController < ApplicationController
 
         # Make sure that this hook came from a known repo
         repo = Repository.find_by(ghid: @payload["repository"]["id"])
-        return render(plaib: "Repository not found", status: :not_found) if repo == nil
+        return render(plain: "Repository not found", status: :not_found) if repo == nil
         WebhookHelper.verify_signature(repo.secret_key, @payload_body, request.env['HTTP_X_HUB_SIGNATURE'])
 
         case request.env['HTTP_X_GITHUB_EVENT']
