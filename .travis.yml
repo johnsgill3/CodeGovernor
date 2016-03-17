@@ -7,4 +7,4 @@ before_script:
     - bundle exec rake db:setup
 sudo: false
 notifications:
-  emails: false
+  email: false
