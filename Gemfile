@@ -52,3 +52,10 @@ group :development do
   # Hide all the annoying GET assest messages
   gem 'quiet_assets'
 end
+
+group :test do
+    gem 'webmock'
+    gem 'minitest'
+    gem 'sinatra'
+    gem 'json'
+end
