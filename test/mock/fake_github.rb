@@ -23,6 +23,15 @@ class FakeGitHub < Sinatra::Base
         'You Found the GitHub API'
     end
 
+    get '/user/repos' do
+        logger.debug request
+        logger.debug params.inspect
+        logger.info
+
+        user = request.env['HTTP_AUTHORIZATION'].split(' ')
+        json_response 200, "#{user[1]}_repos_all.json"
+    end
+
     get '/repos/:owner/:repo/branches/:branch' do
         logger.debug request
         logger.debug params.inspect
@@ -35,7 +44,7 @@ class FakeGitHub < Sinatra::Base
 
     get '/repositories/:repo/branches/:branch' do
         logger.debug request
-        logger.debug params
+        logger.debug params.inspect
 
         repo = params[:captures][0]
         branch = params[:captures][1]
