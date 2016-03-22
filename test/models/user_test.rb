@@ -119,4 +119,12 @@ class UserTest < ActiveSupport::TestCase
         # Now can finally call destory on the user
         user.destroy
     end
+
+    test 'from omniauth' do
+        # TODO Once OmniAuth mock is available
+    end
+
+    test 'repos from github' do
+        # TODO Once GitHub mock is available
+    end
 end

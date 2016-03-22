@@ -4,11 +4,9 @@ class User < ActiveRecord::Base
     has_many :feedbacks, inverse_of: :user
 
     validates :ghuid, uniqueness: true
-=begin
-    ghuid:integer:index
-    nickname:string
-    token:string
-=end
+    #     ghuid:integer:index
+    #     nickname:string
+    #     token:string
 
     def self.from_omniauth(auth_hash)
         user = find_or_create_by(ghuid: auth_hash['uid'])
@@ -16,5 +14,23 @@ class User < ActiveRecord::Base
         user.token = auth_hash['credentials']['token']
         user.save!
         user
+    end
+
+    def get_repos_from_github
+        client = Octokit::Client.new access_token: token
+
+        @repos = Hash.new { |h, k| h[k] = [] }
+        client.repositories.each do |repository|
+            full_name = repository[:full_name]
+
+            if repository[:permissions][:admin]
+                @repos[:admin].push full_name
+            elsif
+                @repos[:push].push full_name
+            else
+                @repos[:pull].push full_name
+            end
+        end
+        @repos
     end
 end

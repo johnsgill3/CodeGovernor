@@ -5,21 +5,21 @@ module WebhookHelper
             unless Rack::Utils.secure_compare(signature, gh_signature)
     end
 
-    def self.pr_opened(payload)
+    def self.pr_opened(_payload)
     end
 
-    def self.pr_synchronized(payload)
+    def self.pr_synchronized(_payload)
     end
 
-    def self.pr_closed(payload)
+    def self.pr_closed(_payload)
     end
 
-    def self.pr_reopened(payload)
+    def self.pr_reopened(_payload)
     end
 
-    def self.issue_comment(payload)
+    def self.issue_comment(_payload)
     end
 
-    def self.ping(payload)
+    def self.ping(_payload)
     end
 end
