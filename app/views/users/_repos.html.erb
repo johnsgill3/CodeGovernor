@@ -1,5 +1,5 @@
 <dl>
-<% get_repos(@user).each do |key, value| %>
+<% @user.get_repos_from_github().each do |key, value| %>
     <dt><%= key %></dt>
     <% value.each do |v| %>
         <dd><%= v %></dd>
