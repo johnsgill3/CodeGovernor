@@ -5,3 +5,13 @@ review_<%= n %>:
     state: <%= prng.rand(3) %>
     repository: <%= n < 10 ? "repo_#{n}" : "repo_#{prng.rand(10)}" %>
 <% end %>
+
+cg_review:
+    pr: 1000
+    state: <%= prng.rand(3) %>
+    repository: CodeGovernor
+
+tr_review:
+    pr: 2000
+    state: <%= prng.rand(3) %>
+    repository: test_repo

@@ -6,3 +6,17 @@ feedback_<%= n %>:
     review: <%= n < 300 ? "review_#{n}" : "review_#{prng.rand(300)}" %>
     user: <%= "user_#{prng.rand(100)}" %>
 <% end %>
+
+<% prng.rand(6..10).times do |n| %>
+cg_feedback_<%= n %>:
+    state: <%= prng.rand(3) %>
+    review: cg_review
+    user: <%= n < 5 ? "cg_user_#{n}" : "cg_user_#{prng.rand(5)}" %>
+<% end %>
+
+<% prng.rand(6..10).times do |n| %>
+tr_feedback_<%= n %>:
+    state: <%= prng.rand(3) %>
+    review: tr_review
+    user: <%= n < 5 ? "tr_user_#{n}" : "tr_user_#{prng.rand(5)}" %>
+<% end %>

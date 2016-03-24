@@ -4,5 +4,14 @@ repo_<%= n %>:
     ghid: <%= n %>
     enabled: <%= prng.rand(0..1) == 1 ? true : false %>
     secret_key: <%= SecureRandom.hex(20) %>
-    users: <%= (1..prng.rand(1..5)).map {|_| "user_#{prng.rand(100)}"}.join(', ') %>
 <% end %>
+
+CodeGovernor:
+    ghid: 53165920
+    enabled: true
+    secret_key: <%= SecureRandom.hex(20) %>
+
+test_repo:
+    ghid: 53015817
+    enabled: true
+    secret_key: <%= SecureRandom.hex(20) %>
