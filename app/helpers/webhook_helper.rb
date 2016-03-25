@@ -1,4 +1,5 @@
 module WebhookHelper
+
     def self.verify_signature(key, payload_body, gh_signature)
         signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), key, payload_body)
         Rack::Utils.secure_compare(signature, gh_signature)
@@ -11,7 +12,7 @@ module WebhookHelper
         # Start a new Review
         review = Review.new
         review.state = :pending
-        review.pr = _payload[:number]
+        review.pr = _payload['number']
         review.repository = repo
 
         f_overrides = get_review_overrides(_payload['pull_request']['body'], repo)
@@ -24,7 +25,7 @@ module WebhookHelper
                 file = GFile.new
                 file.name = f.filename
                 file.repository = repo
-                file.user = User.find_by(ghuid: _payload[:sender][:id])
+                file.user = User.find_by(ghuid: _payload['sender']['id'])
                 file.save!
                 review.g_files << file
 
@@ -59,12 +60,11 @@ module WebhookHelper
             feedback.save!
 
             # Add a comment to PR letting user know the files they have to review
-            Rails.logger.error "@#{user.nickname} Files to review:\n- #{files.map(&:name).join("\n- ")}"
             client.add_comment(repo.ghid, review.pr, "@#{user.nickname} Files to review:\n- #{files.map(&:name).join("\n- ")}")
         end
         review.save! # Finalized everything for the review. Commit it to repo
 
-        client.create_status(repo.ghid, _payload[:pull_request][:head][:sha], 'pending',
+        client.create_status(repo.ghid, _payload['pull_request']['head']['sha'], 'pending',
                              context: 'continuous-integration/codegovernor', description: 'Review Initiated')
         # rescue Exception => e
         #     # TODO: - Handle DB errors
