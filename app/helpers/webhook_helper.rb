@@ -14,26 +14,37 @@ module WebhookHelper
         review.pr = _payload[:number]
         review.repository = repo
 
+        f_overrides = get_review_overrides(_payload['pull_request']['body'], repo)
+
         # Determine files to assign to reviewers
-        #new_files = []
         f_user = Hash.new { |h, k| h[k] = [] }
         client.pull_request_files(repo.ghid, review.pr).each do |f|
             if f.status == 'added'
-                # TODO: How to determine reviewers for new files?
-                # new_files << f.filename
+                # Create the new file and add it to the review
                 file = GFile.new
                 file.name = f.filename
                 file.repository = repo
                 file.user = User.find_by(ghuid: _payload[:sender][:id])
                 file.save!
                 review.g_files << file
-                f_user[file.user] << file
-            elsif f.status == 'modified'
+
+                # Set the reviewer
+                if f_overrides.key?(f.filename)
+                    f_user[f_overrides[f.filename]] << file
+                else
+                    # TODO Missing
+                    # Post a comment to the PR indicating which files need to be assigned
+                end
+            elsif f.status == 'modified' || f.status == 'deleted'
                 file = GFile.find_by(repository: repo, name: f.filename)
                 review.g_files << file
-                f_user[file.user] << file
-            elsif f.status == 'deleted'
-                # TODO: Should removed files still be reviewed?
+
+                # Set the reviewer
+                if f_overrides.key?(f.filename)
+                    f_user[f_overrides[f.filename]] << file
+                else
+                    f_user[file.user] << file
+                end
             else # TODO: Other file statuses - renamed?
                 Rails.logger.error "Unknown file status #{f.status}"
             end
@@ -41,7 +52,6 @@ module WebhookHelper
 
         f_user.each do |user, files|
             # Create feedback to track this users responses
-            # TODO: Create one feedback per file?
             feedback = Feedback.new
             feedback.user = user
             feedback.review = review
@@ -77,5 +87,29 @@ module WebhookHelper
     end
 
     def self.ping(_payload)
+    end
+
+    private
+
+    def self.get_review_overrides(text, repo)
+        # Following RegEx matches the override list from the text body
+        override_re = Regexp.new('^CG_REVIEWER_OVERRIDE\r?\n((?:[-*]\s+[\w\/.]+\s*=\s*@?\w+\r?\n?)+)', Regexp::MULTILINE)
+
+        r_assigns = override_re.match(text)
+        # Get out the files and users to return
+        file_users = {}
+        if r_assigns
+            r_assigns[1].split(/\r?\n/).each do |n|
+                file, nickname = n.gsub(/[-\s*@]+/, "").split('=')
+                user = User.find_by(nickname: nickname)
+                unless user
+                    user = User.from_github(nickname)
+                    user.repositories << repo
+                    user.save!
+                end
+                file_users[file] = user
+            end
+        end
+        file_users
     end
 end

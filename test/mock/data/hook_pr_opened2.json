@@ -31,7 +31,7 @@
             "type": "User",
             "site_admin": false
         },
-        "body": "Made changes to the README to trigger web hookl",
+        "body": "Made changes to the README to trigger web hookl\r\n\r\nCG_REVIEWER_OVERRIDE\r\n- dir1/README.md = @truser4\r\n* README.md = @truser5",
         "created_at": "2016-03-23T01:37:23Z",
         "updated_at": "2016-03-23T01:37:23Z",
         "closed_at": null,
