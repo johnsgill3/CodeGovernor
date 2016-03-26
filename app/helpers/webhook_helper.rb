@@ -1,5 +1,4 @@
 module WebhookHelper
-
     def self.verify_signature(key, payload_body, gh_signature)
         signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), key, payload_body)
         Rack::Utils.secure_compare(signature, gh_signature)
@@ -33,7 +32,7 @@ module WebhookHelper
                 if f_overrides.key?(f.filename)
                     f_user[f_overrides[f.filename]] << file
                 else
-                    # TODO Missing
+                    # TODO: Missing
                     # Post a comment to the PR indicating which files need to be assigned
                 end
             elsif f.status == 'modified' || f.status == 'deleted'
@@ -50,7 +49,9 @@ module WebhookHelper
                 Rails.logger.error "Unknown file status #{f.status}"
             end
         end
+        review.save! # Finalized everything for the review object. Commit it to repo.
 
+        # Add the feedback objects to the review
         f_user.each do |user, files|
             # Create feedback to track this users responses
             feedback = Feedback.new
@@ -60,18 +61,17 @@ module WebhookHelper
             feedback.save!
 
             # Add a comment to PR letting user know the files they have to review
-            client.add_comment(repo.ghid, review.pr, "@#{user.nickname} Files to review:\n- #{files.map(&:name).join("\n- ")}")
+            client.add_comment(repo.ghid, review.pr, "@#{user.nickname} files to review:\n- #{files.map(&:name).join("\n- ")}")
         end
-        review.save! # Finalized everything for the review. Commit it to repo
 
         client.create_status(repo.ghid, _payload['pull_request']['head']['sha'], 'pending',
                              context: 'continuous-integration/codegovernor', description: 'Review Initiated')
-        # rescue Exception => e
-        #     # TODO: - Handle DB errors
-        #     # => ActiveRecord::RecordNotSaved
-        #     # => ActiveRecord::StatementInvalid
-        #     # => Other?
-        #     Rails.logger.error e.message
+    rescue Exception => e
+        # TODO: - Handle DB errors
+        # => ActiveRecord::RecordNotSaved
+        # => ActiveRecord::StatementInvalid
+        # => Other?
+        Rails.logger.error e.message
     end
 
     def self.pr_synchronized(_payload)
@@ -100,10 +100,11 @@ module WebhookHelper
         file_users = {}
         if r_assigns
             r_assigns[1].split(/\r?\n/).each do |n|
-                file, nickname = n.gsub(/[-\s*@]+/, "").split('=')
+                file, nickname = n.gsub(/[-\s*@]+/, '').split('=')
                 user = User.find_by(nickname: nickname)
                 unless user
                     user = User.from_github(nickname)
+                    # TODO: Handle if GitHub cannot find nickname
                     user.repositories << repo
                     user.save!
                 end
