@@ -17,6 +17,7 @@ module WebhookHelper
         f_overrides = get_review_overrides(_payload['pull_request']['body'], repo)
 
         # Determine files to assign to reviewers
+        no_reviewer = []
         f_user = Hash.new { |h, k| h[k] = [] }
         client.pull_request_files(repo.ghid, review.pr).each do |f|
             if f.status == 'added'
@@ -24,7 +25,7 @@ module WebhookHelper
                 file = GFile.new
                 file.name = f.filename
                 file.repository = repo
-                file.user = User.find_by(ghuid: _payload['sender']['id'])
+                file.user = User.find_by(ghuid: _payload['pull_request']['user']['id'])
                 file.save!
                 review.g_files << file
 
@@ -32,8 +33,8 @@ module WebhookHelper
                 if f_overrides.key?(f.filename)
                     f_user[f_overrides[f.filename]] << file
                 else
-                    # TODO: Missing
-                    # Post a comment to the PR indicating which files need to be assigned
+                    # Missing: Post a comment to the PR indicating which files need to be assigned
+                    no_reviewer << file
                 end
             elsif f.status == 'modified' || f.status == 'deleted'
                 file = GFile.find_by(repository: repo, name: f.filename)
@@ -42,6 +43,9 @@ module WebhookHelper
                 # Set the reviewer
                 if f_overrides.key?(f.filename)
                     f_user[f_overrides[f.filename]] << file
+                elsif file.user.nickname == _payload['pull_request']['user']['login']
+                    # Can't review your own code: Post a comment to the PR indicating file needs to be assigned
+                    no_reviewer << file
                 else
                     f_user[file.user] << file
                 end
@@ -50,6 +54,11 @@ module WebhookHelper
             end
         end
         review.save! # Finalized everything for the review object. Commit it to repo.
+
+        if no_reviewer.length > 0
+            client.add_comment(repo.ghid, review.pr, "@#{_payload['pull_request']['user']['login']}\nThe following files need a reviewer assigned.\n"+
+                                                      "Use the CG_REVIEWER_OVERRIDE tag to specify reviewers.\n- #{no_reviewer.map(&:name).join("\n- ")}")
+        end
 
         # Add the feedback objects to the review
         f_user.each do |user, files|
