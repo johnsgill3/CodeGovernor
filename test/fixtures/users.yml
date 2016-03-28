@@ -6,3 +6,19 @@ user_<%= n %>:
     token: <%= SecureRandom.hex(15) %>
     repositories: <%= (1..prng.rand(1..5)).map {|_| "repo_#{prng.rand(10)}"}.join(', ') %>
 <% end %>
+
+<% 5.times do |n| %>
+cg_user_<%= n %>:
+    ghuid: <%= n+100 %>
+    nickname: <%= "cguser#{n}" %>
+    token: <%= SecureRandom.hex(15) %>
+    repositories: CodeGovernor
+<% end %>
+
+<% 5.times do |n| %>
+tr_user_<%= n %>:
+    ghuid: <%= n+200 %>
+    nickname: <%= "truser#{n}" %>
+    token: <%= SecureRandom.hex(15) %>
+    repositories: test_repo
+<% end %>

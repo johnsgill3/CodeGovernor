@@ -1,0 +1,20 @@
+{
+    "sha": "edd40f80e8e0a2eb19bcc56cf33d1f59e4d34fd8",
+    "url": "https://api.github.com/repos/CodeGovernor/test_repo/git/trees/edd40f80e8e0a2eb19bcc56cf33d1f59e4d34fd8",
+    "tree": [{
+        "path": ".gitignore",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "55fcde6c75a2d990926a7148ce60ea109c866e79",
+        "size": 707,
+        "url": "https://api.github.com/repos/CodeGovernor/test_repo/git/blobs/55fcde6c75a2d990926a7148ce60ea109c866e79"
+    }, {
+        "path": "README.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "14bbc0d26c5ecb929838ade8d11230263d317b99",
+        "size": 49,
+        "url": "https://api.github.com/repos/CodeGovernor/test_repo/git/blobs/14bbc0d26c5ecb929838ade8d11230263d317b99"
+    }],
+    "truncated": false
+}

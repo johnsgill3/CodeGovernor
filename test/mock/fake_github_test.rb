@@ -18,14 +18,14 @@ class SubRequestTest < ActiveSupport::TestCase
     test 'basic octokit using client' do
         client = Octokit::Client.new client_id: ENV['GH_CLIENT_ID'], client_secret: ENV['GH_CLIENT_SECRET']
 
-        assert_equal('edd40f80e8e0a2eb19bcc56cf33d1f59e4d34fd8', client.branch(53_015_817, 'master').commit.sha, 'Mismatched content')
+        assert_equal('edd40f80e8e0a2eb19bcc56cf33d1f59e4d34fd8', client.branch(repositories(:test_repo).ghid, 'master').commit.sha, 'Mismatched content')
         assert_equal('edd40f80e8e0a2eb19bcc56cf33d1f59e4d34fd8', client.branch('CodeGovernor/CodeGovernor', 'master').commit.sha, 'Mismatched content')
     end
 
     test 'basic octokit using token' do
         client = Octokit::Client.new access_token: users(:user_0).token
 
-        assert_equal('edd40f80e8e0a2eb19bcc56cf33d1f59e4d34fd8', client.branch(53_015_817, 'master').commit.sha, 'Mismatched content')
+        assert_equal('edd40f80e8e0a2eb19bcc56cf33d1f59e4d34fd8', client.branch(repositories(:test_repo).ghid, 'master').commit.sha, 'Mismatched content')
         assert_equal('edd40f80e8e0a2eb19bcc56cf33d1f59e4d34fd8', client.branch('CodeGovernor/CodeGovernor', 'master').commit.sha, 'Mismatched content')
     end
 end

@@ -8,6 +8,17 @@ class User < ActiveRecord::Base
     #     nickname:string
     #     token:string
 
+    def self.from_github(nickname)
+        client = Octokit::Client.new client_id: ENV['GH_CLIENT_ID'], client_secret: ENV['GH_CLIENT_SECRET']
+
+        gh_user = client.user(nickname)
+        user = User.new
+        user.ghuid = gh_user[:id]
+        user.nickname = gh_user[:login]
+        user.save!
+        user
+    end
+
     def self.from_omniauth(auth_hash)
         user = find_or_create_by(ghuid: auth_hash['uid'])
         user.nickname = auth_hash['info']['nickname']

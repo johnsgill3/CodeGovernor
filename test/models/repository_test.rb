@@ -94,7 +94,7 @@ class RepositoryTest < ActiveSupport::TestCase
         assert(repo.save!, "Could not save repository #{repo.id} - #{repo.ghid}")
 
         # Test Update All Repositories
-        assert_equal(10, Repository.update_all('enabled = true'), 'Update did not update correct number of rows')
+        assert_equal(Repository.all.length, Repository.update_all('enabled = true'), 'Update did not update correct number of rows')
 
         # Test Update via hash
         repositories(:repo_1).update(enabled: false)
@@ -114,10 +114,7 @@ class RepositoryTest < ActiveSupport::TestCase
     end
 
     test 'enable repository' do
-        repoA = Repository.new
-        repoA.ghid = 53_015_817
-        repoA.users = [users(:user_0), users(:user_1)]
-        repoA.save!
-        repoA.enable_repository(users(:user_1))
+        repo = repositories(:test_repo)
+        repo.enable_repository(users(:user_1))
     end
 end

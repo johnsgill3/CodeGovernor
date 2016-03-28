@@ -9,3 +9,19 @@ file_<%= n %>:
     # Make sure that at there is at least one review for each file
     reviews: <%= (1..prng.rand(1..5)).map {|_| "review_#{prng.rand(300)}"}.join(', ') %>
 <% end %>
+
+<% prng.rand(10..20).times do |n| %>
+cg_file_<%= n %>:
+    name: <%= (0..Random.new.rand(3)).map {|d| "dir#{d}/"}.join+"file#{Random.new.rand(n+1)}.md" %>
+    user: <%= n < 5 ? "cg_user_#{n}" : "cg_user_#{prng.rand(5)}" %>
+    repository: CodeGovernor
+    reviews: cg_review
+<% end %>
+
+<% prng.rand(10..20).times do |n| %>
+tr_file_<%= n %>:
+    name: <%= (0..Random.new.rand(3)).map {|d| "dir#{d}/"}.join+"file#{Random.new.rand(n+1)}.md" %>
+    user: <%= n < 5 ? "tr_user_#{n}" : "tr_user_#{prng.rand(5)}" %>
+    repository: test_repo
+    reviews: tr_review
+<% end %>

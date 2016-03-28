@@ -96,7 +96,7 @@ class UserTest < ActiveSupport::TestCase
         assert(user.save!, "Could not save user #{user.id} - #{user.ghuid}")
 
         # Test Update All
-        assert_equal(100, User.update_all(nickname: 'gh_user'), 'Update did not update correct number of rows')
+        assert_equal(User.all.length, User.update_all(nickname: 'gh_user'), 'Update did not update correct number of rows')
 
         # Test Update via hash
         users(:user_1).update(nickname: 'ghuser991')
@@ -118,13 +118,5 @@ class UserTest < ActiveSupport::TestCase
         user.feedbacks.each(&:destroy)
         # Now can finally call destory on the user
         user.destroy
-    end
-
-    test 'from omniauth' do
-        # TODO Once OmniAuth mock is available
-    end
-
-    test 'repos from github' do
-        # TODO Once GitHub mock is available
     end
 end
